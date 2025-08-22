@@ -1,0 +1,11 @@
+# Web Framework
+Flask==3.0.3
+
+# Email Handling
+Flask-Mail==0.9.1
+
+# Environment Variables (for config like email credentials)
+python-dotenv==1.0.1
+
+# Production Server (better than Flask's built-in dev server)
+gunicorn==23.0.0
