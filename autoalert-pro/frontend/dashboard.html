@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoAlert Pro</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #2d3748;
+      min-height: 100vh;
+    }
+    
+    /* Nova-inspired styling */
+    .nova-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .nova-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .nova-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nova-btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .nova-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .nova-stats {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .nova-stats h3 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .nova-stats p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    body.dark {
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+      color: #f7fafc;
+    }
+    
+    body.dark .nova-header {
+      background: rgba(26, 32, 44, 0.95);
+    }
+    
+    body.dark .nova-card {
+      background: rgba(45, 55, 72, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Chatbot specific styling */
+    #chatbot-messages {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,0.2) transparent;
+    }
+    
+    #chatbot-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    #chatbot-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    #chatbot-messages::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.2);
+      border-radius: 3px;
+    }
+    
+    #chatbot-messages::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0,0,0,0.3);
+    }
+    
+    /* Chatbot animation */
+    #chatbot-window {
+      animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Feedback form animations */
+    @keyframes starPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    @keyframes successShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideOutDown {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Feedback message styling */
+    .feedback-message {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    
+    .feedback-success {
+      background-color: rgba(34, 197, 94, 0.1);
+      color: #16a34a;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+    
+    .feedback-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    
+    .feedback-error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    /* Star rating hover effects */
+    .star {
+      transition: all 0.2s ease;
+    }
+    
+    .star:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Form field animations */
+    .form-control:focus,
+    .form-select:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    }
+    
+    /* Submit button hover effect */
+    .nova-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Hero Section with Images */
+    .hero-section {
+      min-height: 600px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .hero-background {
+      background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: 0.3;
+    }
+    
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+    }
+    
+    .hero-content h1 {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-image img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hero-image img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Image Gallery Section */
+    .image-gallery {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 30px 0;
+    }
+    
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+      color: white;
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+      transform: translateY(0);
+    }
+    
+    /* Smart notification animations */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+    }
+    
+    /* Priority-based styling */
+    .priority-critical {
+      border-left-color: #dc2626 !important;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+    }
+    
+    .priority-high {
+      border-left-color: #f59e0b !important;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+    }
+    
+    .priority-medium {
+      border-left-color: #10b981 !important;
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+    }
+  </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-100">
+  <!-- Nova-inspired Sticky Navigation -->
+  <nav class="navbar navbar-expand-lg nova-header fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <i class="fas fa-shield-alt text-primary me-2" style="font-size: 2rem;"></i>
+        <span class="fw-bold fs-4">AutoAlert Pro</span>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="dashboard.html">
+              <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="alerts.html">
+              <i class="fas fa-bell me-1"></i>Alerts
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="settings.html">
+              <i class="fas fa-cog me-1"></i>Settings
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="login.html">
+              <i class="fas fa-sign-in-alt me-1"></i>Login
+            </a>
+          </li>
+          <li class="nav-item ms-2">
+            <button id="dark-toggle" class="btn btn-outline-primary rounded-pill">
+              <i class="fas fa-moon me-1"></i>Dark Mode
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </nav>
+
+  <!-- Hero Section with Background Image -->
+  <section class="hero-section py-5 mt-5 position-relative overflow-hidden">
+    <!-- Background Image -->
+    <div class="hero-background position-absolute top-0 start-0 w-100 h-100"></div>
+    
+    <!-- Overlay -->
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+    
+    <div class="container position-relative">
+      <!-- Hero Content -->
+      <div class="row align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="hero-content text-white">
+            <h1 class="display-4 fw-bold mb-3">Professional Monitoring & Alert System</h1>
+            <p class="lead mb-4">Stay ahead of issues with intelligent alerts and real-time monitoring. Protect your infrastructure with AutoAlert Pro.</p>
+
+        </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-image text-center">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                 alt="Dashboard Analytics" 
+                 class="img-fluid rounded-4 shadow-lg" 
+                 style="max-height: 400px; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Row -->
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="nova-stats">
+            <h3 id="total-submissions">102</h3>
+            <p><i class="fas fa-chart-line me-2"></i>Total Submissions</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="nova-stats">
+            <h3 id="alert-threshold">80</h3>
+            <p><i class="fas fa-exclamation-triangle me-2"></i>Alert Threshold</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="nova-stats">
+            <h3 id="emails-sent">15</h3>
+            <p><i class="fas fa-envelope me-2"></i>Emails Sent</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="nova-stats">
+            <h3 id="uptime">99.9%</h3>
+            <p><i class="fas fa-server me-2"></i>System Uptime</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- Smart Notifications Panel -->
+  <div id="smart-notifications" class="container mb-4" style="display: none;">
+    <div class="nova-card p-4 border-start border-danger border-4">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="flex-grow-1">
+          <h3 class="text-danger fw-bold mb-2">
+            <i class="fas fa-exclamation-triangle me-2"></i>CRITICAL ALERT DETECTED
+          </h3>
+          <p class="text-muted mb-2">Your system has crossed the threshold limit and needs immediate attention!</p>
+          <div id="alert-details" class="small text-muted"></div>
+        </div>
+        <button onclick="dismissNotification()" class="btn btn-link text-muted">
+          <i class="fas fa-times fa-lg"></i>
+        </button>
+      </div>
+      <div id="smart-recommendations" class="mt-3 p-3 bg-danger bg-opacity-10 rounded-3">
+        <h4 class="text-danger fw-semibold mb-2">
+          <i class="fas fa-target me-2"></i>IMMEDIATE ACTION REQUIRED:
+        </h4>
+        <div id="recommendations-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container py-5">
+    <div class="row g-4">
+      <!-- Alert Form Card -->
+      <div class="col-lg-4">
+        <div class="nova-card p-4 h-100">
+          <div class="text-center mb-4">
+            <i class="fas fa-bell text-primary" style="font-size: 2.5rem;"></i>
+            <h3 class="fw-bold text-primary mt-2">Set New Alert</h3>
+          </div>
+          <form onsubmit="event.preventDefault(); sendAlert();">
+            <div class="mb-3">
+              <label for="type" class="form-label fw-semibold">
+                <i class="fas fa-tag me-2"></i>Alert Type
+              </label>
+              <select id="type" class="form-select">
+            <option value="traffic_drop">Traffic Drop</option>
+            <option value="site_down">Site Down</option>
+          </select>
+        </div>
+            <div class="mb-3">
+              <label for="value" class="form-label fw-semibold">
+                <i class="fas fa-chart-line me-2"></i>Threshold
+              </label>
+              <input type="number" id="value" placeholder="Enter value" class="form-control" />
+        </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">
+                <i class="fas fa-envelope me-2"></i>Email
+              </label>
+              <input type="email" id="email" placeholder="you@example.com" class="form-control" />
+        </div>
+
+            <button type="submit" class="nova-btn-primary w-100 mb-2">
+              <i class="fas fa-plus me-2"></i>Set Alert
+            </button>
+            <p id="message" class="text-center small mb-2"></p>
+            <button type="button" onclick="checkAllAlerts()" class="btn btn-success w-100 rounded-pill mb-2">
+              <i class="fas fa-search me-2"></i>Check All Alerts
+            </button>
+            <p id="check-message" class="text-center small mb-2"></p>
+            
+            <!-- Test Email Button -->
+            <div class="d-flex gap-2 mb-2">
+              <input type="email" id="test-email" placeholder="Test email address" class="form-control form-control-sm" />
+              <button type="button" onclick="testEmail()" class="btn btn-warning btn-sm">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+            <p id="test-email-message" class="text-center small mb-2"></p>
+            
+
+      </form>
+        </div>
+      </div>
+
+      <!-- Recent Submissions Card -->
+      <div class="col-lg-4">
+        <div class="nova-card p-4 h-100">
+          <div class="text-center mb-4">
+            <i class="fas fa-list-alt text-primary" style="font-size: 2.5rem;"></i>
+            <h3 class="fw-bold text-primary mt-2">Recent Submissions</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover">
+        <thead>
+          <tr>
+                  <th class="fw-semibold">ID</th>
+                  <th class="fw-semibold">Value</th>
+                  <th class="fw-semibold">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+                <tr>
+                  <td class="fw-monospace">#001</td>
+                  <td>95</td>
+                  <td><span class="badge bg-danger">Alert Sent</span></td>
+          </tr>
+                <tr>
+                  <td class="fw-monospace">#002</td>
+                  <td>72</td>
+                  <td><span class="badge bg-success">Normal</span></td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+
+  <!-- Compact Alert History & Analytics -->
+  <section class="container py-4">
+    <div class="row g-4">
+      <!-- Alert History Card -->
+      <div class="col-lg-6">
+        <div class="nova-card p-3 h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-history text-primary me-2"></i>
+              <h5 class="fw-bold text-primary mb-0">Recent Alerts</h5>
+            </div>
+            <span class="badge bg-primary rounded-pill">Last 7 days</span>
+          </div>
+          <div class="table-responsive" style="max-height: 300px;">
+            <table class="table table-sm table-hover mb-0" id="alert-history-table">
+              <thead class="table-light">
+                <tr>
+                  <th class="fw-semibold small">Date</th>
+                  <th class="fw-semibold small">Type</th>
+                  <th class="fw-semibold small">Value</th>
+                  <th class="fw-semibold small">Status</th>
+            </tr>
+          </thead>
+              <tbody id="alert-history-body" class="small">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+        </div>
+      </div>
+
+      <!-- Analytics Chart Card -->
+      <div class="col-lg-6">
+        <div class="nova-card p-3 h-100">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-chart-line text-primary me-2"></i>
+              <h5 class="fw-bold text-primary mb-0">Alert Trends</h5>
+            </div>
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn btn-outline-primary btn-sm active">7D</button>
+              <button type="button" class="btn btn-outline-primary btn-sm">30D</button>
+            </div>
+          </div>
+          <div style="height: 250px;">
+            <canvas id="alertsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Gallery Section -->
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary mb-3">
+        <i class="fas fa-images me-2"></i>Our Platform in Action
+      </h2>
+      <p class="text-muted">See how AutoAlert Pro transforms your monitoring experience</p>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80" 
+               alt="Analytics Dashboard" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Analytics Dashboard</h5>
+            <p class="small">Real-time monitoring and insights</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+               alt="Data Visualization" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Data Visualization</h5>
+            <p class="small">Beautiful charts and graphs</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+               alt="Team Collaboration" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Team Collaboration</h5>
+            <p class="small">Work together seamlessly</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+               alt="Mobile App" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Mobile App</h5>
+            <p class="small">Monitor on the go</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+               alt="Server Monitoring" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Server Monitoring</h5>
+            <p class="small">Keep your infrastructure healthy</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+               alt="Smart Alerts" 
+               class="img-fluid">
+          <div class="gallery-overlay">
+            <h5 class="fw-bold">Smart Alerts</h5>
+            <p class="small">Intelligent notifications</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compact User Feedback Section -->
+  <section class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="nova-card p-4" style="animation: slideInUp 0.6s ease-out;">
+          <div class="text-center mb-4">
+            <i class="fas fa-comment-dots text-primary" style="font-size: 2rem;"></i>
+            <h4 class="fw-bold text-primary mt-2">We Value Your Feedback</h4>
+            <p class="text-muted small">Help us improve AutoAlert Pro</p>
+          </div>
+          <form id="feedback-form">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="feedback-type" class="form-label fw-semibold small">
+                  <i class="fas fa-tag me-1"></i>Feedback Type
+                </label>
+                <select id="feedback-type" class="form-select form-select-sm">
+          <option value="app">App Experience</option>
+          <option value="alert">Specific Alert</option>
+        </select>
+      </div>
+              <div class="col-md-6" id="alert-id-field" style="display: none;">
+                <label for="alert-id" class="form-label fw-semibold small">
+                  <i class="fas fa-hashtag me-1"></i>Alert ID
+                </label>
+                <input type="text" id="alert-id" class="form-control form-control-sm" placeholder="Enter Alert ID" />
+      </div>
+        </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold small">
+                <i class="fas fa-star me-1"></i>Rating
+              </label>
+              <div class="d-flex gap-1 align-items-center" id="rating-stars">
+                <span class="star fs-5 cursor-pointer text-muted transition-all" data-value="1">&#9733;</span>
+                <span class="star fs-5 cursor-pointer text-muted transition-all" data-value="2">&#9733;</span>
+                <span class="star fs-5 cursor-pointer text-muted transition-all" data-value="3">&#9733;</span>
+                <span class="star fs-5 cursor-pointer text-muted transition-all" data-value="4">&#9733;</span>
+                <span class="star fs-5 cursor-pointer text-muted transition-all" data-value="5">&#9733;</span>
+                <span id="rating-text" class="ms-2 fw-semibold text-primary small"></span>
+      </div>
+      </div>
+            <div class="mt-3">
+              <label for="feedback-text" class="form-label fw-semibold small">
+                <i class="fas fa-comment me-1"></i>Comments
+              </label>
+              <textarea id="feedback-text" rows="2" class="form-control form-control-sm" placeholder="Your feedback..."></textarea>
+            </div>
+            <div class="mt-3 text-center">
+              <button type="submit" class="nova-btn-primary">
+                <i class="fas fa-paper-plane me-2"></i>Submit Feedback
+              </button>
+              <p id="feedback-message" class="text-center mt-2 small"></p>
+            </div>
+    </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle" style="width: 50px; height: 50px; display: none;">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- Footer -->
+  <footer class="nova-card mt-5">
+    <div class="container py-5">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-shield-alt text-primary me-2" style="font-size: 2rem;"></i>
+            <span class="fw-bold fs-4">AutoAlert Pro</span>
+          </div>
+          <p class="text-muted">Professional monitoring and alert system for your business infrastructure.</p>
+          <div class="d-flex gap-3">
+            <a href="#" class="text-primary"><i class="fab fa-twitter fa-lg"></i></a>
+            <a href="#" class="text-primary"><i class="fab fa-linkedin fa-lg"></i></a>
+            <a href="#" class="text-primary"><i class="fab fa-github fa-lg"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <h5 class="fw-bold mb-3">Product</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-muted text-decoration-none">Features</a></li>
+            <li><a href="#" class="text-muted text-decoration-none">Pricing</a></li>
+            <li><a href="#" class="text-muted text-decoration-none">API</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2">
+          <h5 class="fw-bold mb-3">Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-muted text-decoration-none">Documentation</a></li>
+            <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+            <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h5 class="fw-bold mb-3">Newsletter</h5>
+          <p class="text-muted mb-3">Stay updated with our latest features and updates.</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Enter your email">
+            <button class="btn btn-primary">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="text-center text-muted">
+        &copy; 2025 AutoAlert Pro. All rights reserved. | Built with ❤️ using Nova-inspired design
+      </div>
+    </div>
+  </footer>
+
+      <!-- Nova Chatbot Widget -->
+      <div id="chatbot-widget" class="position-fixed bottom-0 end-0 m-4" style="z-index: 1050;">
+    <!-- Chat Button -->
+        <button id="chatbot-toggle" class="nova-btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem;">
+          <i class="fas fa-comments"></i>
+    </button>
+    <!-- Chat Window -->
+        <div id="chatbot-window" class="nova-card shadow-lg mt-3" style="width: 350px; height: 450px; display: none;">
+          <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-robot text-primary me-2"></i>
+              <span class="fw-bold text-primary">AutoAlert Assistant</span>
+      </div>
+            <button id="chatbot-close" class="btn btn-link text-muted p-0">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div id="chatbot-messages" class="flex-grow-1 p-3" style="height: 320px; overflow-y: auto;"></div>
+          <form id="chatbot-form" class="p-3 border-top">
+            <div class="input-group">
+              <input id="chatbot-input" type="text" placeholder="Type your message..." class="form-control" autocomplete="off" />
+              <button type="submit" class="btn btn-primary" disabled>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function sendAlert() {
+      const type = document.getElementById('type').value;
+      const value = document.getElementById('value').value;
+      const email = document.getElementById('email').value;
+
+      fetch('http://127.0.0.1:5000/set-alert', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ type, value, email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        let message = data.message;
+        if (data.alert_triggered) {
+          message += ` (Current value: ${data.current_value})`;
+          document.getElementById('message').className = 'text-center mt-2 text-sm text-red-600';
+          
+          // Show smart notification for triggered alerts
+          const alertData = {
+            type: document.getElementById('type').value,
+            value: document.getElementById('value').value,
+            current_value: data.current_value
+          };
+          showSmartNotification(alertData);
+        } else {
+          document.getElementById('message').className = 'text-center mt-2 text-sm text-green-600';
+        }
+        document.getElementById('message').innerText = message;
+        
+        // Refresh the alert history to show the new alert
+        setTimeout(() => {
+          fetchAlertHistory();
+        }, 1000);
+      })
+      .catch(() => {
+        document.getElementById('message').innerText = '❌ Failed to send alert!';
+        document.getElementById('message').className = 'text-center mt-2 text-sm text-red-600';
+      });
+    }
+
+    function checkAllAlerts() {
+      document.getElementById('check-message').innerText = 'Checking alerts...';
+      document.getElementById('check-message').className = 'text-center mt-2 text-sm text-blue-600';
+      
+      fetch('http://127.0.0.1:5000/check-alerts', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('check-message').innerText = data.message;
+        document.getElementById('check-message').className = 'text-center mt-2 text-sm text-green-600';
+        
+        // Refresh the alert history
+        setTimeout(() => {
+          fetchAlertHistory();
+        }, 1000);
+      })
+      .catch(() => {
+        document.getElementById('check-message').innerText = '❌ Failed to check alerts!';
+        document.getElementById('check-message').className = 'text-center mt-2 text-sm text-red-600';
+      });
+    }
+
+    function showSmartNotification(alertData) {
+      const notificationPanel = document.getElementById('smart-notifications');
+      const alertDetails = document.getElementById('alert-details');
+      const recommendationsList = document.getElementById('recommendations-list');
+      
+      // Calculate severity and urgency
+      const severity = calculateSeverity(alertData.type, alertData.value, alertData.current_value);
+      const urgency = calculateUrgency(severity);
+      
+      // Update alert details
+      alertDetails.innerHTML = `
+        <strong>Type:</strong> ${alertData.type.replace('_', ' ').toUpperCase()} | 
+        <strong>Threshold:</strong> ${alertData.value} | 
+        <strong>Current:</strong> <span style="color: #dc2626; font-weight: bold;">${alertData.current_value}</span> | 
+        <strong>Severity:</strong> <span style="color: ${severity === 'HIGH' ? '#dc2626' : severity === 'MEDIUM' ? '#f59e0b' : '#10b981'}; font-weight: bold;">${severity}</span> | 
+        <strong>Priority:</strong> <span style="color: #dc2626; font-weight: bold;">${urgency}</span>
+      `;
+      
+      // Get smart recommendations
+      const recommendations = getSmartRecommendations(alertData.type, alertData.value, alertData.current_value, severity);
+      recommendationsList.innerHTML = recommendations;
+      
+      // Show notification with animation
+      notificationPanel.style.display = 'block';
+      notificationPanel.style.animation = 'slideDown 0.5s ease-out';
+      
+      // Auto-hide after 30 seconds
+      setTimeout(() => {
+        dismissNotification();
+      }, 30000);
+    }
+
+    function dismissNotification() {
+      const notificationPanel = document.getElementById('smart-notifications');
+      notificationPanel.style.animation = 'slideUp 0.5s ease-out';
+      setTimeout(() => {
+        notificationPanel.style.display = 'none';
+      }, 500);
+    }
+
+    function calculateSeverity(alertType, threshold, current) {
+      const thresholdVal = parseInt(threshold);
+      const currentVal = parseInt(current);
+      
+      if (alertType === 'traffic_drop') {
+        const deviation = ((thresholdVal - currentVal) / thresholdVal) * 100;
+        if (deviation > 50) return 'HIGH';
+        if (deviation > 25) return 'MEDIUM';
+        return 'LOW';
+      } else if (alertType === 'site_down') {
+        const deviation = ((currentVal - thresholdVal) / thresholdVal) * 100;
+        if (deviation > 100) return 'HIGH';
+        if (deviation > 50) return 'MEDIUM';
+        return 'LOW';
+      }
+      return 'MEDIUM';
+    }
+
+    function calculateUrgency(severity) {
+      if (severity === 'HIGH') return 'CRITICAL';
+      if (severity === 'MEDIUM') return 'HIGH';
+      return 'MEDIUM';
+    }
+
+    function getSmartRecommendations(alertType, threshold, current, severity) {
+      if (alertType === 'traffic_drop') {
+        if (severity === 'HIGH') {
+          return `
+            <ul style="margin: 0; padding-left: 20px; color: #dc2626;">
+              <li><strong>URGENT:</strong> Website may be completely down - check server status immediately</li>
+              <li><strong>CRITICAL:</strong> DNS issues detected - verify domain configuration</li>
+              <li><strong>IMMEDIATE:</strong> Contact hosting provider for emergency support</li>
+              <li><strong>MONITOR:</strong> Check server logs for error patterns</li>
+            </ul>
+          `;
+        } else if (severity === 'MEDIUM') {
+          return `
+            <ul style="margin: 0; padding-left: 20px; color: #f59e0b;">
+              <li><strong>CHECK:</strong> Website performance and loading times</li>
+              <li><strong>VERIFY:</strong> Server resources and bandwidth usage</li>
+              <li><strong>REVIEW:</strong> Recent code deployments or changes</li>
+              <li><strong>MONITOR:</strong> Traffic patterns and user behavior</li>
+            </ul>
+          `;
+        }
+      } else if (alertType === 'site_down') {
+        if (severity === 'HIGH') {
+          return `
+            <ul style="margin: 0; padding-left: 20px; color: #dc2626;">
+              <li><strong>EMERGENCY:</strong> Server may be overloaded or crashed</li>
+              <li><strong>CRITICAL:</strong> Database connection issues - check DB status</li>
+              <li><strong>URGENT:</strong> Restart critical services immediately</li>
+              <li><strong>MONITOR:</strong> Check CPU, memory, and disk usage</li>
+            </ul>
+          `;
+        } else if (severity === 'MEDIUM') {
+          return `
+            <ul style="margin: 0; padding-left: 20px; color: #f59e0b;">
+              <li><strong>OPTIMIZE:</strong> Server performance needs improvement</li>
+              <li><strong>SCALE:</strong> Consider adding more resources</li>
+              <li><strong>REVIEW:</strong> Check for memory leaks or inefficient code</li>
+              <li><strong>MONITOR:</strong> Response time patterns</li>
+            </ul>
+          `;
+        }
+      }
+      
+      return `
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Review system configuration</li>
+          <li>Check for any recent changes</li>
+          <li>Monitor system performance</li>
+        </ul>
+      `;
+    }
+
+    // Fetch alert history and render table + chart
+    function fetchAlertHistory() {
+      fetch('http://127.0.0.1:5000/get-alerts')
+        .then(res => res.json())
+        .then(data => {
+          // Populate table
+          const tbody = document.getElementById('alert-history-body');
+          tbody.innerHTML = '';
+          
+          // Show only last 5 alerts for compact view
+          const recentAlerts = data.alerts.slice(-5);
+          
+          recentAlerts.forEach(alert => {
+            const tr = document.createElement('tr');
+            const currentValue = alert.current_value ? ` (${alert.current_value})` : '';
+            const statusClass = alert.status === 'Alert Sent' ? 'bg-danger' : 'bg-success';
+            const statusText = alert.status === 'Alert Sent' ? 'Alert' : 'Normal';
+            
+            tr.innerHTML = `
+              <td class="small">${new Date(alert.date || alert.timestamp || Date.now()).toLocaleDateString()}</td>
+              <td class="small text-uppercase">${alert.type.replace('_', ' ')}</td>
+              <td class="small fw-monospace">${alert.value}${currentValue}</td>
+              <td><span class="badge ${statusClass} small">${statusText}</span></td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          // Prepare data for chart
+          const dateCounts = {};
+          data.alerts.forEach(alert => {
+            const date = (new Date(alert.date || alert.timestamp || Date.now())).toLocaleDateString();
+            dateCounts[date] = (dateCounts[date] || 0) + 1;
+          });
+          const labels = Object.keys(dateCounts);
+          const counts = Object.values(dateCounts);
+
+          // Render chart
+          const ctx = document.getElementById('alertsChart').getContext('2d');
+          if (window.alertsChartInstance) window.alertsChartInstance.destroy();
+          window.alertsChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Alerts per Day',
+                data: counts,
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3,
+                pointBackgroundColor: '#667eea',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                x: { 
+                  title: { display: false },
+                  ticks: { font: { size: 10 } }
+                },
+                y: { 
+                  title: { display: false },
+                  ticks: { font: { size: 10 } },
+                  beginAtZero: true 
+                }
+              },
+              elements: {
+                point: {
+                  hoverRadius: 5
+                }
+              }
+            }
+          });
+        });
+    }
+
+    // Call on page load
+    fetchAlertHistory();
+
+    // Chatbot UI logic
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotWindow = document.getElementById('chatbot-window');
+    const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotForm = document.getElementById('chatbot-form');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+
+    // Initialize chatbot with welcome message
+    function initializeChatbot() {
+      appendMessage('Bot', 'Hello! I\'m your AutoAlert Pro assistant. How can I help you today?', 'left');
+    }
+
+    chatbotToggle.onclick = () => {
+      if (chatbotWindow.style.display === 'none' || chatbotWindow.style.display === '') {
+        chatbotWindow.style.display = 'block';
+        // Initialize chatbot when first opened
+        if (chatbotMessages.children.length === 0) {
+          initializeChatbot();
+        }
+      } else {
+        chatbotWindow.style.display = 'none';
+      }
+    };
+    chatbotClose.onclick = () => chatbotWindow.style.display = 'none';
+
+    chatbotForm.onsubmit = async function(e) {
+      e.preventDefault();
+      const userMsg = chatbotInput.value.trim();
+      if (!userMsg) return;
+      
+      // Disable input and show loading
+      chatbotInput.disabled = true;
+      const submitBtn = chatbotForm.querySelector('button[type="submit"]');
+      const originalBtnHTML = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
+      
+      appendMessage('You', userMsg, 'right');
+      chatbotInput.value = '';
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      
+      try {
+      const botReply = await getBotReply(userMsg);
+      appendMessage('Bot', botReply, 'left');
+      } catch (error) {
+        appendMessage('Bot', 'Sorry, I encountered an error. Please try again.', 'left');
+      } finally {
+        // Re-enable input
+        chatbotInput.disabled = false;
+        submitBtn.innerHTML = originalBtnHTML;
+        submitBtn.disabled = false;
+        chatbotInput.focus();
+      }
+      
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    };
+
+    function appendMessage(sender, text, align) {
+      const msg = document.createElement('div');
+      msg.className = `d-flex ${align === 'right' ? 'justify-content-end' : 'justify-content-start'} mb-2`;
+      
+      const messageClass = align === 'right' 
+        ? 'bg-primary text-white' 
+        : 'bg-light text-dark';
+      
+      msg.innerHTML = `
+        <div class="px-3 py-2 rounded-3 shadow-sm ${messageClass}" style="max-width: 70%; font-size: 0.875rem;">
+          ${text}
+        </div>
+      `;
+      chatbotMessages.appendChild(msg);
+    }
+
+    async function getBotReply(userMsg) {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/chatbot', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ message: userMsg })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.reply || "Sorry, I didn't get a proper response.";
+      } catch (error) {
+        console.error('Chatbot error:', error);
+        throw new Error("Sorry, I couldn't reach the server.");
+      }
+    }
+
+    // Keyboard shortcuts for chatbot
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && chatbotWindow.style.display === 'block') {
+        chatbotWindow.style.display = 'none';
+      }
+    });
+
+    // Enter key to send message
+    chatbotInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        chatbotForm.dispatchEvent(new Event('submit'));
+      }
+    });
+
+    // Dark mode toggle logic
+    const darkToggle = document.getElementById('dark-toggle');
+    const body = document.body;
+
+    // Check for saved mode
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      darkToggle.textContent = '☀️ Light Mode';
+    } else {
+      darkToggle.textContent = '🌙 Dark Mode';
+    }
+
+    darkToggle.onclick = () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        darkToggle.innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
+      } else {
+        localStorage.setItem('theme', 'light');
+        darkToggle.innerHTML = '<i class="fas fa-moon me-1"></i>Dark Mode';
+      }
+    };
+
+    // Back to top functionality
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Enhanced Feedback Form Functionality
+    let selectedRating = 0;
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackType = document.getElementById('feedback-type');
+    const alertIdField = document.getElementById('alert-id-field');
+    const ratingStars = document.querySelectorAll('#rating-stars .star');
+    const feedbackMessage = document.getElementById('feedback-message');
+    const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+
+    // Show/hide alert ID field with animation
+    feedbackType.onchange = function() {
+      if (this.value === 'alert') {
+        alertIdField.style.display = 'block';
+        alertIdField.style.animation = 'slideDown 0.3s ease-out';
+      } else {
+        alertIdField.style.animation = 'slideUp 0.3s ease-out';
+        setTimeout(() => {
+          alertIdField.style.display = 'none';
+        }, 300);
+      }
+    };
+
+    // Enhanced star rating with animations
+    ratingStars.forEach(star => {
+      star.addEventListener('click', function() {
+        const rating = parseInt(this.dataset.value);
+        selectedRating = rating;
+        
+        // Animate stars
+        ratingStars.forEach((s, index) => {
+          const starRating = index + 1;
+          if (starRating <= rating) {
+            s.classList.remove('text-muted');
+            s.classList.add('text-warning');
+            s.style.animation = 'starPop 0.3s ease-out';
+          } else {
+            s.classList.remove('text-warning');
+            s.classList.add('text-muted');
+          }
+        });
+        
+        // Show rating text
+        showRatingText(rating);
+      });
+
+      // Hover effects
+      star.addEventListener('mouseenter', function() {
+        const rating = parseInt(this.dataset.value);
+        ratingStars.forEach((s, index) => {
+          const starRating = index + 1;
+          if (starRating <= rating) {
+            s.classList.add('text-warning');
+            s.style.transform = 'scale(1.1)';
+          }
+        });
+      });
+
+      star.addEventListener('mouseleave', function() {
+        ratingStars.forEach(s => {
+          s.style.transform = 'scale(1)';
+          if (selectedRating === 0) {
+            s.classList.remove('text-warning');
+            s.classList.add('text-muted');
+          }
+        });
+      });
+    });
+
+    function showRatingText(rating) {
+      const ratingTexts = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+      const messageDiv = document.getElementById('rating-text');
+      if (rating > 0) {
+        messageDiv.textContent = ratingTexts[rating];
+        messageDiv.style.animation = 'fadeIn 0.3s ease-out';
+      }
+    }
+
+    // Enhanced form submission with animations
+    feedbackForm.onsubmit = async function(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const type = feedbackType.value;
+      const alertId = document.getElementById('alert-id').value;
+      const text = document.getElementById('feedback-text').value.trim();
+
+      if (!selectedRating) {
+        showFeedbackMessage('Please select a rating', 'warning');
+        return;
+      }
+      
+      if (!text) {
+        showFeedbackMessage('Please provide feedback comments', 'warning');
+        return;
+      }
+
+      // Show loading state
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+      submitBtn.disabled = true;
+      submitBtn.style.animation = 'pulse 1s infinite';
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/feedback', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ type, alertId, rating: selectedRating, text })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          showFeedbackMessage('Thank you for your feedback! 🎉', 'success');
+          feedbackForm.reset();
+          resetRating();
+          
+          // Success animation
+          feedbackForm.style.animation = 'successShake 0.5s ease-out';
+        } else {
+          showFeedbackMessage(data.message || 'Failed to submit feedback', 'error');
+        }
+      } catch (error) {
+        showFeedbackMessage('Network error. Please try again.', 'error');
+      } finally {
+        // Reset button
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        submitBtn.style.animation = '';
+      }
+    };
+
+    function showFeedbackMessage(message, type) {
+      feedbackMessage.textContent = message;
+      feedbackMessage.className = `text-center mt-2 small feedback-message feedback-${type}`;
+      feedbackMessage.style.animation = 'slideInUp 0.3s ease-out';
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        feedbackMessage.style.animation = 'slideOutDown 0.3s ease-out';
+        setTimeout(() => {
+          feedbackMessage.textContent = '';
+        }, 300);
+      }, 5000);
+    }
+
+    function resetRating() {
+      selectedRating = 0;
+      ratingStars.forEach(star => {
+        star.classList.remove('text-warning');
+        star.classList.add('text-muted');
+        star.style.animation = '';
+      });
+      document.getElementById('rating-text').textContent = '';
+    }
+
+    // Test email functionality
+    function testEmail() {
+      const testEmail = document.getElementById('test-email').value.trim();
+      const messageDiv = document.getElementById('test-email-message');
+      
+      if (!testEmail) {
+        messageDiv.textContent = 'Please enter an email address to test';
+        messageDiv.className = 'text-center small mt-2 text-danger';
+        return;
+      }
+      
+      if (!testEmail.includes('@')) {
+        messageDiv.textContent = 'Please enter a valid email address';
+        messageDiv.className = 'text-center small mt-2 text-danger';
+        return;
+      }
+      
+      messageDiv.textContent = 'Sending test email...';
+      messageDiv.className = 'text-center small mt-2 text-info';
+      
+      fetch('http://127.0.0.1:5000/test-email', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email: testEmail })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          messageDiv.textContent = data.message;
+          messageDiv.className = 'text-center small mt-2 text-success';
+        } else {
+          messageDiv.textContent = data.message;
+          messageDiv.className = 'text-center small mt-2 text-danger';
+        }
+      })
+      .catch(error => {
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.className = 'text-center small mt-2 text-danger';
+        console.error('Test email error:', error);
+      });
+    }
+
+
+  </script>
+</body>
+</html>

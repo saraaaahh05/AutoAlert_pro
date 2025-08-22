@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings - AutoAlert Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff; /* Pure white for light mode */
+      color: #6b92c9; /* Dark gray for better readability */
+    }
+    .glass {
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+      backdrop-filter: blur(6px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    body.dark {
+      background-color: #111827 !important; /* Dark background */
+      color: #000000 !important; /* Light text */
+    }
+    body.dark .glass {
+      background: rgba(31, 41, 55, 0.85); /* Dark glass effect */
+      border: 1px solid rgba(75, 85, 99, 0.18);
+    }
+  </style>
+</head>
+<body class="dark:bg-gray-900 dark:text-gray-100">
+  <!-- Navbar -->
+  <header class="bg-white/80 shadow-lg p-6 flex justify-between items-center glass mb-8">
+    <h1 class="text-3xl font-extrabold text-blue-700 flex items-center gap-2">
+      <span>AutoAlert Pro</span> <span class="text-2xl">🚨</span>
+    </h1>
+    <nav>
+      <a href="dashboard.html" class="text-gray-800 hover:text-blue-600 mx-3 font-semibold transition">Dashboard</a>
+      <a href="alerts.html" class="text-gray-800 hover:text-blue-600 mx-3 font-semibold transition">Alerts</a>
+      <a href="settings.html" class="text-blue-600 mx-3 font-semibold transition">Settings</a>
+      <a href="login.html" class="text-gray-800 hover:text-green-600 mx-3 font-semibold transition">Login</a>
+      <button id="dark-toggle" class="ml-4 px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition">
+        🌙 Dark Mode
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto">
+    <div class="glass p-8 shadow-lg">
+      <h2 class="text-3xl font-bold mb-8 text-blue-700 text-center">Settings</h2>
+      
+      <!-- Account Settings -->
+      <section class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">Account Settings</h3>
+        <form id="account-form" class="space-y-4">
+          <div>
+            <label for="email" class="block font-semibold mb-1 text-gray-800">Email Address</label>
+            <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-500" placeholder="your@email.com" />
+          </div>
+          <div>
+            <label for="current-password" class="block font-semibold mb-1 text-gray-800">Current Password</label>
+            <input type="password" id="current-password" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-500" placeholder="Enter current password" />
+          </div>
+          <div>
+            <label for="new-password" class="block font-semibold mb-1 text-gray-800">New Password</label>
+            <input type="password" id="new-password" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-500" placeholder="Enter new password" />
+          </div>
+          <div>
+            <label for="confirm-password" class="block font-semibold mb-1 text-gray-800">Confirm New Password</label>
+            <input type="password" id="confirm-password" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-500" placeholder="Confirm new password" />
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">Update Account</button>
+          <p id="account-message" class="text-sm mt-2"></p>
+        </form>
+      </section>
+
+      <!-- Notification Settings -->
+      <section class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">Notification Settings</h3>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h4 class="font-semibold text-gray-800">Email Notifications</h4>
+              <p class="text-sm text-gray-600">Receive alerts via email</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="email-notifications" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+          
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h4 class="font-semibold text-gray-800">SMS Notifications</h4>
+              <p class="text-sm text-gray-600">Receive alerts via SMS (Premium)</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="sms-notifications" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+          
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h4 class="font-semibold text-gray-800">Push Notifications</h4>
+              <p class="text-sm text-gray-600">Receive browser notifications</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="push-notifications" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alert Preferences -->
+      <section class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">Alert Preferences</h3>
+        <div class="space-y-4">
+          <div>
+            <label for="default-threshold" class="block font-semibold mb-1 text-gray-800">Default Alert Threshold</label>
+            <input type="number" id="default-threshold" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-500" placeholder="80" value="80" />
+          </div>
+          
+          <div>
+            <label for="alert-frequency" class="block font-semibold mb-1 text-gray-800">Alert Frequency</label>
+            <select id="alert-frequency" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800">
+              <option value="immediate">Immediate</option>
+              <option value="5min">Every 5 minutes</option>
+              <option value="15min">Every 15 minutes</option>
+              <option value="1hour">Every hour</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="quiet-hours" class="block font-semibold mb-1 text-gray-800">Quiet Hours</label>
+            <div class="flex gap-4">
+              <div class="flex-1">
+                <label class="block text-sm text-gray-600 mb-1">Start Time</label>
+                <input type="time" id="quiet-start" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800" value="22:00" />
+              </div>
+              <div class="flex-1">
+                <label class="block text-sm text-gray-600 mb-1">End Time</label>
+                <input type="time" id="quiet-end" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800" value="08:00" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Theme Settings -->
+      <section class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">Theme Settings</h3>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h4 class="font-semibold text-gray-800">Dark Mode</h4>
+              <p class="text-sm text-gray-600">Switch between light and dark themes</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="dark-mode-toggle" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+          
+          <div>
+            <label for="accent-color" class="block font-semibold mb-1 text-gray-800">Accent Color</label>
+            <select id="accent-color" class="w-full p-3 border border-gray-300 rounded-lg text-gray-800">
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="green">Green</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Danger Zone -->
+      <section class="mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-red-600 border-b border-red-200 pb-2">Danger Zone</h3>
+        <div class="space-y-4">
+          <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <h4 class="font-semibold text-red-800 mb-2">Delete All Alerts</h4>
+            <p class="text-sm text-red-600 mb-3">This will permanently delete all your alert history. This action cannot be undone.</p>
+            <button id="delete-alerts" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Delete All Alerts</button>
+          </div>
+          
+          <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <h4 class="font-semibold text-red-800 mb-2">Delete Account</h4>
+            <p class="text-sm text-red-600 mb-3">This will permanently delete your account and all associated data. This action cannot be undone.</p>
+            <button id="delete-account" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Delete Account</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Save Settings -->
+      <div class="text-center">
+        <button id="save-settings" class="bg-gradient-to-r from-blue-500 to-pink-500 text-white font-bold py-3 px-8 rounded-lg shadow hover:from-blue-600 hover:to-pink-600 transition">Save All Settings</button>
+        <p id="settings-message" class="text-sm mt-2"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 py-6 text-sm mt-12">
+    &copy; 2025 AutoAlert Pro. All rights reserved.
+  </footer>
+
+  <script>
+    // Load current settings
+    function loadSettings() {
+      fetch('http://127.0.0.1:5000/settings')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('email').value = data.email || '';
+          document.getElementById('email-notifications').checked = data.notifications !== false;
+        })
+        .catch(err => {
+          console.error('Error loading settings:', err);
+        });
+    }
+
+    // Save settings
+    document.getElementById('save-settings').onclick = function() {
+      const settings = {
+        email: document.getElementById('email').value,
+        notifications: document.getElementById('email-notifications').checked,
+        defaultThreshold: document.getElementById('default-threshold').value,
+        alertFrequency: document.getElementById('alert-frequency').value,
+        quietStart: document.getElementById('quiet-start').value,
+        quietEnd: document.getElementById('quiet-end').value,
+        accentColor: document.getElementById('accent-color').value
+      };
+
+      fetch('http://127.0.0.1:5000/settings', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(settings)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('settings-message').innerText = data.message || 'Settings saved successfully!';
+        document.getElementById('settings-message').className = 'text-sm mt-2 text-green-600';
+      })
+      .catch(err => {
+        document.getElementById('settings-message').innerText = 'Failed to save settings.';
+        document.getElementById('settings-message').className = 'text-sm mt-2 text-red-600';
+      });
+    };
+
+    // Account form submission
+    document.getElementById('account-form').onsubmit = function(e) {
+      e.preventDefault();
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      if (newPassword && newPassword !== confirmPassword) {
+        document.getElementById('account-message').innerText = 'Passwords do not match!';
+        document.getElementById('account-message').className = 'text-sm mt-2 text-red-600';
+        return;
+      }
+      
+      // Here you would typically send the password update to the server
+      document.getElementById('account-message').innerText = 'Account updated successfully!';
+      document.getElementById('account-message').className = 'text-sm mt-2 text-green-600';
+      document.getElementById('account-form').reset();
+    };
+
+    // Dark mode toggle
+    const darkToggle = document.getElementById('dark-toggle');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+
+    // Check for saved mode
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      darkToggle.textContent = '☀️ Light Mode';
+      darkModeToggle.checked = true;
+    } else {
+      darkToggle.textContent = '🌙 Dark Mode';
+      darkModeToggle.checked = false;
+    }
+
+    darkToggle.onclick = () => {
+      body.classList.toggle('dark');
+      darkModeToggle.checked = body.classList.contains('dark');
+      if (body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        darkToggle.textContent = '☀️ Light Mode';
+      } else {
+        localStorage.setItem('theme', 'light');
+        darkToggle.textContent = '🌙 Dark Mode';
+      }
+    };
+
+    darkModeToggle.onchange = () => {
+      body.classList.toggle('dark', darkModeToggle.checked);
+      if (darkModeToggle.checked) {
+        localStorage.setItem('theme', 'dark');
+        darkToggle.textContent = '☀️ Light Mode';
+      } else {
+        localStorage.setItem('theme', 'light');
+        darkToggle.textContent = '🌙 Dark Mode';
+      }
+    };
+
+    // Delete alerts confirmation
+    document.getElementById('delete-alerts').onclick = function() {
+      if (confirm('Are you sure you want to delete all alerts? This action cannot be undone.')) {
+        // Here you would send delete request to server
+        alert('All alerts deleted successfully!');
+      }
+    };
+
+    // Delete account confirmation
+    document.getElementById('delete-account').onclick = function() {
+      if (confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This is your final warning. All your data will be permanently deleted.')) {
+          // Here you would send delete account request to server
+          alert('Account deleted. Redirecting to home page...');
+          window.location.href = 'index.html';
+        }
+      }
+    };
+
+    // Load settings on page load
+    loadSettings();
+  </script>
+</body>
+</html> 

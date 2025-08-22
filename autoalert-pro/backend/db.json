@@ -1,0 +1,288 @@
+{
+  "alerts": [
+    {
+      "date": "2025-07-20T10:00:00Z",
+      "type": "traffic",
+      "value": 500,
+      "status": "Alert Sent",
+      "email": "sarah.kureshi05@gmail.com"
+    },
+    {
+      "date": "2025-07-21T12:30:00Z",
+      "type": "stock",
+      "value": 100,
+      "status": "Normal",
+      "email": "sarah.kureshi05@gmail.com"
+    },
+    {
+      "date": "2025-07-22T09:15:00Z",
+      "type": "weather",
+      "value": 45,
+      "status": "Normal",
+      "email": "srh.kureshi@gmail.com"
+    },
+    {
+      "date": "2025-07-22T14:00:00Z",
+      "type": "traffic_drop",
+      "value": 34345,
+      "status": "Alert Sent",
+      "email": "atharv9jan2004@gmail.com"
+    },
+    {
+      "date": "2025-07-23T08:45:00Z",
+      "type": "site_down",
+      "value": 23,
+      "status": "Alert Sent",
+      "email": "sarahkureshi2004@icloud.com"
+    },
+    {
+      "date": "2025-07-23T09:00:00Z",
+      "type": "site_down",
+      "value": 243,
+      "status": "Normal",
+      "email": "sarahkureshi2004@icloud.com"
+    },
+    {
+      "date": "2025-07-23T10:00:00Z",
+      "type": "traffic_drop",
+      "value": "",
+      "status": "Normal",
+      "email": ""
+    },
+    {
+      "date": "2025-07-23T10:05:00Z",
+      "type": "traffic_drop",
+      "value": "",
+      "status": "Normal",
+      "email": ""
+    },
+    {
+      "date": "2025-07-23T11:00:00Z",
+      "type": "traffic_drop",
+      "value": 1000,
+      "status": "Alert Sent",
+      "email": "sarah.kureshi05@gmail.com"
+    },
+    {
+      "date": "2025-07-23T11:05:00Z",
+      "type": "traffic_drop",
+      "value": 1000,
+      "status": "Alert Sent",
+      "email": "sarah.kureshi05@gmail.com"
+    },
+    {
+      "date": "2025-07-23T12:00:00Z",
+      "type": "site_down",
+      "value": 95,
+      "status": "Alert Sent",
+      "email": "20220802407@dypiu.ac.in"
+    },
+    {
+      "type": "traffic_drop",
+      "value": "67",
+      "email": "sarah.kureshi05@gmail.com",
+      "date": "2025-07-31T20:03:18.017110",
+      "status": "Normal"
+    },
+    {
+      "type": "traffic_drop",
+      "value": "100",
+      "email": "sarah.kureshi05@gmail.com",
+      "date": "2025-07-31T20:29:20.411253",
+      "status": "Normal",
+      "current_value": 112
+    },
+    {
+      "type": "site_down",
+      "value": "210",
+      "email": "sarah.kureshi05@gmail.com",
+      "date": "2025-07-31T20:30:03.580121",
+      "status": "Normal",
+      "current_value": 136
+    },
+    {
+      "type": "site_down",
+      "value": "210",
+      "email": "sarah.kureshi05@gmail.com",
+      "date": "2025-07-31T20:30:07.217549",
+      "status": "Alert Sent",
+      "current_value": 294
+    },
+    {
+      "type": "site_down",
+      "value": "300",
+      "email": "sarah.kureshi05@gmail.com",
+      "date": "2025-08-01T14:39:58.752044",
+      "status": "Alert Sent",
+      "current_value": 374
+    },
+    {
+      "type": "traffic_drop",
+      "value": "80",
+      "email": "20220802407@dypiu.ac.in",
+      "date": "2025-08-01T15:40:18.736240",
+      "status": "Normal",
+      "current_value": 80
+    },
+    {
+      "type": "site_down",
+      "value": "-7",
+      "email": "srh.kureshi@gmail.com",
+      "date": "2025-08-01T18:02:52.904093",
+      "status": "Alert Sent",
+      "current_value": 317
+    },
+    {
+      "type": "site_down",
+      "value": "-7",
+      "email": "srh.kureshi@gmail.com",
+      "date": "2025-08-01T18:02:54.631962",
+      "status": "Alert Sent",
+      "current_value": 218
+    },
+    {
+      "type": "site_down",
+      "value": "-7",
+      "email": "srh.kureshi@gmail.com",
+      "date": "2025-08-01T18:02:57.426628",
+      "status": "Alert Sent",
+      "current_value": 252
+    },
+    {
+      "type": "site_down",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-01T22:50:41.262550",
+      "status": "Alert Sent",
+      "current_value": 481
+    },
+    {
+      "type": "site_down",
+      "value": "290",
+      "email": "srhkureshi@gmail.com",
+      "phone": "",
+      "date": "2025-08-03T11:54:11.389459",
+      "status": "Normal",
+      "current_value": 200
+    },
+    {
+      "type": "traffic_drop",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-03T12:02:16.419081",
+      "status": "Alert Sent",
+      "current_value": 131
+    },
+    {
+      "type": "site_down",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-03T14:12:26.316784",
+      "status": "Alert Sent",
+      "current_value": 366
+    },
+    {
+      "type": "site_down",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T10:18:33.911006",
+      "status": "Alert Sent",
+      "current_value": 451
+    },
+    {
+      "type": "traffic_drop",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T12:00:30.516482",
+      "status": "Alert Sent",
+      "current_value": 72
+    },
+    {
+      "type": "site_down",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T12:41:08.315680",
+      "status": "Normal",
+      "current_value": 212
+    },
+    {
+      "type": "traffic_drop",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T12:41:46.500586",
+      "status": "Alert Sent",
+      "current_value": 96
+    },
+    {
+      "type": "traffic_drop",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T12:53:30.684618",
+      "status": "Alert Sent",
+      "current_value": 121
+    },
+    {
+      "type": "site_down",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T13:08:11.552563",
+      "status": "Normal",
+      "current_value": 194
+    },
+    {
+      "type": "traffic_drop",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T13:24:29.066549",
+      "status": "Alert Sent",
+      "current_value": 122
+    },
+    {
+      "type": "traffic_drop",
+      "value": "200",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T13:27:07.862970",
+      "status": "Alert Sent",
+      "current_value": 67
+    },
+    {
+      "type": "traffic_drop",
+      "value": "20",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T13:33:00.274292",
+      "status": "Normal",
+      "current_value": 114
+    },
+    {
+      "type": "traffic_drop",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T15:07:31.699513",
+      "status": "Alert Sent",
+      "current_value": 76
+    },
+    {
+      "type": "traffic_drop",
+      "value": "300",
+      "email": "srhkureshi@gmail.com",
+      "date": "2025-08-04T15:07:33.748296",
+      "status": "Alert Sent",
+      "current_value": 76
+    }
+  ],
+  "users": [
+    {
+      "email": "user@example.com",
+      "password": "password123"
+    },
+    {
+      "email": "sarah.kureshi05@gmail.com",
+      "password": "password123"
+    },
+    {
+      "email": "shabana.kureshi16@gmail.com",
+      "password": "Babli@123"
+    }
+  ],
+  "feedback": []
+}

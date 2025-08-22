@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings | AutoAlert Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .glass {
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.15);
+      backdrop-filter: blur(6px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-pink-100 min-h-screen flex items-center justify-center">
+  <div class="glass max-w-md w-full p-10 shadow-lg">
+    <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center">Settings</h2>
+    <form id="settings-form" class="space-y-6">
+      <div>
+        <label for="email" class="block font-semibold mb-1 text-gray-700">Notification Email</label>
+        <input type="email" id="email" required placeholder="you@example.com" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200" />
+      </div>
+      <div>
+        <label for="notifications" class="block font-semibold mb-1 text-gray-700">Enable Notifications</label>
+        <input type="checkbox" id="notifications" class="mr-2" />
+        <span>Yes</span>
+      </div>
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-pink-500 text-white font-bold py-3 rounded-lg shadow hover:from-blue-600 hover:to-pink-600 transition">Save Settings</button>
+      <p id="settings-message" class="text-center mt-2 text-sm"></p>
+    </form>
+    <div class="flex justify-between mt-4">
+      <button onclick="window.location.href='dashboard.html'" class="w-full bg-blue-500 text-white font-bold py-2 rounded-lg shadow hover:bg-blue-600 transition">Back to Dashboard</button>
+    </div>
+  </div>
+  <script>
+    // Fetch current settings on page load
+    fetch('http://127.0.0.1:5000/settings')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('notifications').checked = data.notifications;
+      });
+
+    // Save settings
+    document.getElementById('settings-form').onsubmit = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const notifications = document.getElementById('notifications').checked;
+      fetch('http://127.0.0.1:5000/settings', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, notifications })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('settings-message').innerText = data.message || "Saved!";
+      })
+      .catch(() => {
+        document.getElementById('settings-message').innerText = "❌ Failed to save settings.";
+      });
+    }
+  </script>
+</body>
+</html>
